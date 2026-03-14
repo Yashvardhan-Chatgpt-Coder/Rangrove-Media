@@ -1,0 +1,910 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
+export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const caseStudiesScrollRef = useRef<HTMLDivElement>(null);
+  const services = [
+    {
+      title: "Custom Website Development",
+      description:
+        "Modern, fast, and scalable websites built specifically for your business goals and brand identity.",
+      iconBg: "bg-[#f3d4df]",
+      iconColor: "#ef2b72",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 10.2H25.5V23.8H8.5V10.2Z" stroke="currentColor" strokeWidth="3.2" strokeLinejoin="round" />
+          <path d="M8.5 13.8H25.5" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <circle cx="12" cy="12" r="1" fill="currentColor" />
+          <circle cx="15.5" cy="12" r="1" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "UI / UX Design",
+      description:
+        "Clean, intuitive user interfaces designed to improve user experience and increase engagement.",
+      iconBg: "bg-[#f2dcc8]",
+      iconColor: "#ff851c",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8.8" y="8.8" width="16.4" height="16.4" rx="2.2" stroke="currentColor" strokeWidth="3.2" />
+          <path d="M12.2 14.2H21.8" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M12.2 19.8H18.5" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "E-Commerce Development",
+      description:
+        "Secure and scalable online stores designed to help businesses sell products seamlessly online.",
+      iconBg: "bg-[#cce9e6]",
+      iconColor: "#25b8a7",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7 10H24L22.2 20.2H9.2L7 10Z"
+            stroke="currentColor"
+            strokeWidth="2.8"
+            strokeLinejoin="round"
+          />
+          <path d="M12 10C12 7.8 13.8 6 16 6C18.2 6 20 7.8 20 10" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="11" cy="22.5" r="1.6" fill="currentColor" />
+          <circle cx="20.8" cy="22.5" r="1.6" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "Web Applications",
+      description:
+        "Custom web applications built to streamline operations and deliver powerful digital solutions.",
+      iconBg: "bg-[#d7d3f2]",
+      iconColor: "#6e63f5",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7.6" y="8.8" width="18.8" height="16.6" rx="2.4" stroke="currentColor" strokeWidth="3.2" />
+          <path d="M12 14.6L9.6 17L12 19.4" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M22 14.6L24.4 17L22 19.4" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Website Optimization",
+      description:
+        "Performance improvements, speed optimization, and technical enhancements for better results.",
+      iconBg: "bg-[#f2dcc8]",
+      iconColor: "#ff851c",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="10" stroke="currentColor" strokeWidth="3.2" />
+          <path d="M17 17L23 12.5" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <circle cx="17" cy="17" r="2.2" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "Website Maintenance",
+      description:
+        "Continuous updates, security monitoring, and technical support to keep your website running smoothly.",
+      iconBg: "bg-[#d7d3f2]",
+      iconColor: "#6e63f5",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 7.5L26 12V22.5L18 27L10 22.5V12L18 7.5Z" stroke="currentColor" strokeWidth="3.2" strokeLinejoin="round" />
+          <path d="M18 12.2V17.6" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <circle cx="18" cy="21.5" r="1.6" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "SEO-Ready Development",
+      description:
+        "Websites built with strong technical SEO foundations to improve visibility on search engines.",
+      iconBg: "bg-[#f3d4df]",
+      iconColor: "#ef2b72",
+      icon: (
+        <svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="15" cy="15" r="7.4" stroke="currentColor" strokeWidth="3.2" />
+          <path d="M21 21L26 26" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M12.2 15H17.8" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M15 12.2V17.8" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+  ];
+  const caseStudies = [
+    {
+      brand: "ARRAN",
+      subtitle: "SENSE OF SCOTLAND",
+      website: "paradiseyatra.com",
+      category: "Travel Company",
+      highlight: "A warm, destination-led site that makes trip discovery and inquiries simple.",
+      url: "https://paradiseyatra.com",
+      image: "/Home/Our%20Work/Paradise%20Yatra.jpg",
+      tone: "lavender",
+    },
+    {
+      brand: "affordablegolf",
+      subtitle: "",
+      website: "voyatrail.com",
+      category: "Travel Company",
+      highlight: "Itinerary-focused layout with clear navigation and fast booking paths.",
+      url: "https://voyatrail.com",
+      image: "/Home/Our%20Work/Voya%20Trail.jpg",
+      tone: "sand",
+    },
+    {
+      brand: "spaceist",
+      subtitle: "",
+      website: "suite.rangrove.com",
+      category: "Tech SaaS Company",
+      highlight: "Product-first SaaS site with crisp messaging and conversion-ready sections.",
+      url: "https://suite.rangrove.com",
+      image: "/Home/Our%20Work/Rangrove%20Suite.jpg",
+      tone: "mint",
+    },
+    {
+      brand: "ARRAN",
+      subtitle: "SENSE OF SCOTLAND",
+      website: "tech.paradiseyatra.com",
+      category: "CRM Software",
+      highlight: "Feature-driven CRM pages with strong hierarchy and product clarity.",
+      url: "https://tech.paradiseyatra.com",
+      image: "/Home/Our%20Work/Tech%20Paradise%20Yatra.jpg",
+      tone: "lavender",
+    },
+    {
+      brand: "Rangrove News",
+      subtitle: "",
+      website: "news.rangrove.com",
+      category: "News Company",
+      highlight: "Editorial layout built for readability, speed, and topic discovery.",
+      url: "https://news.rangrove.com",
+      image: "/Home/Our%20Work/Rangrove%20News.jpg",
+      tone: "sand",
+    },
+    {
+      brand: "Rangrove School",
+      subtitle: "",
+      website: "yashvardhanchauhan01.wixstudio.com/school",
+      category: "School Website",
+      highlight: "A clean, welcoming school site with clear programs and admissions flow.",
+      url: "https://yashvardhanchauhan01.wixstudio.com/school",
+      image: "/Home/Our%20Work/School%20Website.jpg",
+      tone: "mint",
+    },
+    {
+      brand: "DHG Consultancy",
+      subtitle: "",
+      website: "dhgconsultancy.com",
+      category: "Hospitality Company",
+      highlight: "Hospitality recruitment site focused on placing talent in foreign countries.",
+      url: "https://dhgconsultancy.com",
+      image: "/Home/Our%20Work/Dhg%20Consultancy.jpg",
+      tone: "sand",
+    },
+  ];
+  const expectations = [
+    {
+      title: "Strong Digital Presence",
+      description:
+        "We build websites that strengthen your brand and create a powerful first impression online.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="2.6" />
+          <path d="M5.5 14H22.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          <path d="M14 5.2C16.7 8.2 16.7 19.8 14 22.8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          <path d="M14 5.2C11.3 8.2 11.3 19.8 14 22.8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Business Growth",
+      description:
+        "Our websites are designed not just to look good but to support real business growth and lead generation.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 18L10 13L14 16L21 9" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M17.8 9H21V12.2" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M8 9.5L9 10.5L10.2 8.8" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4.8 12.2L5.7 13.1L7 11.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Expert Development",
+      description:
+        "Every project is built using modern technologies, clean code, and scalable architecture.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 10.2L5.2 14L8.5 17.8" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M19.5 10.2L22.8 14L19.5 17.8" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M12.2 20.2L15.8 7.8" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Dedicated Partnership",
+      description:
+        "We work closely with our clients, understanding their goals and delivering solutions that truly support their business.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.8 16.2L9.5 11.5C10.6 10.4 12.4 10.4 13.5 11.5L16.2 14.2" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M23.2 16.2L18.5 11.5C17.4 10.4 15.6 10.4 14.5 11.5L11.8 14.2" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9.2 18.8L12.4 22C13.3 22.9 14.7 22.9 15.6 22L18.8 18.8" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Performance Focused",
+      description:
+        "Fast loading speeds, smooth user experience, and optimized performance come standard with every website we build.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 18.2C6 12.8 9.9 9 14.5 9C19.1 9 23 12.8 23 18.2" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+          <path d="M14.5 18.2L19.2 13.6" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+          <circle cx="14.5" cy="18.2" r="2" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      title: "Built For Results",
+      description:
+        "Our focus is simple — build websites that attract users, engage visitors, and convert them into customers.",
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="8.6" stroke="currentColor" strokeWidth="2.6" />
+          <circle cx="14" cy="14" r="4.6" stroke="currentColor" strokeWidth="2.6" />
+          <circle cx="14" cy="14" r="1.8" fill="currentColor" />
+        </svg>
+      ),
+    },
+  ];
+  const workTogetherOptions = [
+    {
+      number: "01",
+      title: "Website Audit & Strategy",
+      description:
+        "We analyze your current website, performance, and user experience to identify improvements and opportunities for growth.",
+      ribbonBg: "#d8d4fb",
+      ribbonText: "#6d63f5",
+    },
+    {
+      number: "02",
+      title: "Ongoing Website Support",
+      description:
+        "Continuous updates, improvements, security monitoring, and technical support to keep your website performing at its best.",
+      ribbonBg: "#f6cfdd",
+      ribbonText: "#ef4d7f",
+    },
+    {
+      number: "03",
+      title: "Website Redesign",
+      description:
+        "Transform your existing website with modern design, improved performance, and better user experience.",
+      ribbonBg: "#f3dcc5",
+      ribbonText: "#ff8c23",
+    },
+    {
+      number: "04",
+      title: "Custom Website Development",
+      description:
+        "We design and develop a complete website tailored to your brand, business goals, and technical requirements.",
+      ribbonBg: "#c7ece7",
+      ribbonText: "#1fb7ab",
+    },
+  ];
+  const testimonials = [
+    {
+      quote:
+        "Rangrove Media delivered a site that feels premium and loads fast. The structure and polish made an immediate impact on leads.",
+      name: "Aarav Singh",
+      role: "Founder, Paradise Yatra",
+    },
+    {
+      quote:
+        "Clear storytelling, fast performance, and a clean UI. Our team can update content without friction.",
+      name: "Neha Kapoor",
+      role: "Marketing Lead, Rangrove News",
+    },
+    {
+      quote:
+        "The new website is sharp, responsive, and aligned with our product narrative. It converts better than our old site.",
+      name: "Rohan Mehta",
+      role: "Product Lead, Rangrove Suite",
+    },
+  ];
+  const whyChooseUsImage = "/Home/Why Choose Us/Image.webp";
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const closeMenuOnResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", closeMenuOnResize);
+
+    return () => {
+      window.removeEventListener("resize", closeMenuOnResize);
+    };
+  }, []);
+
+  const handleCaseStudiesScroll = (direction: "prev" | "next") => {
+    const container = caseStudiesScrollRef.current;
+    if (!container) {
+      return;
+    }
+
+    const scrollAmount = 360;
+    container.scrollBy({
+      left: direction === "next" ? scrollAmount : -scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <main className="min-h-screen">
+      <section className="relative flex flex-col overflow-hidden text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
+          style={{ backgroundImage: "url('/Home/Hero/Background Mobile.webp')" }}
+        />
+        <div
+          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat sm:block"
+          style={{ backgroundImage: "url('/Home/Hero/Background.webp')" }}
+        />
+
+        <div className="fixed inset-x-0 top-0 z-30 px-4 pt-3 sm:px-6 sm:pt-5">
+          <nav
+            className={`mx-auto flex w-full max-w-5xl items-center justify-between rounded-[14px] px-4 py-2.5 transition-all duration-300 sm:px-6 sm:py-3 ${
+              isScrolled || isMenuOpen
+                ? "bg-[#09043c] shadow-[0_18px_40px_-28px_rgba(0,0,0,0.7)]"
+                : "bg-transparent"
+            }`}
+          >
+            <div className="group relative h-[24px] w-[114px] cursor-pointer sm:h-[30px] sm:w-[143px]">
+              <Image
+                src="/Brand/Logo.png"
+                alt="Clickboost"
+                fill
+                priority
+                className="object-contain object-left transition-transform group-hover:scale-[1.02]"
+              />
+            </div>
+
+            <button
+              type="button"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((value) => !value)}
+              className={`relative flex h-11 w-11 items-center justify-center rounded-[14px] border transition-all duration-300 md:hidden ${
+                isScrolled || isMenuOpen
+                  ? "border-white/12 bg-white/8 backdrop-blur-sm"
+                  : "border-white/10 bg-transparent"
+              }`}
+            >
+              <span className="sr-only">Toggle menu</span>
+              <span className="relative h-4 w-5">
+                <span
+                  className={`absolute left-0 h-[2px] w-5 rounded-full bg-white transition-all duration-300 ${
+                    isMenuOpen ? "top-[7px] rotate-45" : "top-0"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-[7px] h-[2px] rounded-full bg-white transition-all duration-300 ${
+                    isMenuOpen ? "w-0 opacity-0" : "w-5 opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 h-[2px] w-5 rounded-full bg-white transition-all duration-300 ${
+                    isMenuOpen ? "top-[7px] -rotate-45" : "top-[14px]"
+                  }`}
+                />
+              </span>
+            </button>
+
+            <div className="hidden items-center space-x-5 text-[13px] font-medium text-gray-300 md:flex">
+              <a href="#" className="transition-colors hover:text-white">
+                What we do
+              </a>
+              <a href="#" className="transition-colors hover:text-white">
+                Our Team
+              </a>
+              <a href="#" className="transition-colors hover:text-white">
+                Case Studies
+              </a>
+              <a href="#" className="transition-colors hover:text-white">
+                Contact Us
+              </a>
+            </div>
+          </nav>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-out md:hidden ${
+              isMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="mx-auto w-full max-w-5xl px-0 pb-4">
+              <div className="rounded-[14px] border border-white/10 bg-[#09043c] p-3 shadow-[0_20px_60px_-24px_rgba(0,0,0,0.75)]">
+                <a
+                  href="#"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-[10px] px-4 py-3 text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
+                >
+                  What we do
+                </a>
+                <a
+                  href="#"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-[10px] px-4 py-3 text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
+                >
+                  Our Team
+                </a>
+                <a
+                  href="#"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-[10px] px-4 py-3 text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
+                >
+                  Case Studies
+                </a>
+                <a
+                  href="#"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-[10px] px-4 py-3 text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="h-[64px] shrink-0 sm:h-[86px]" aria-hidden="true" />
+
+        <div className="relative z-10 mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-8 px-4 pt-4 sm:px-6 sm:pt-6 lg:grid-cols-2">
+          <div className="relative z-20 mx-auto max-w-xl pb-10 text-center sm:pb-[56px] lg:mx-0 lg:pb-12 lg:text-left">
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#e91d62] sm:mb-4 sm:text-[11px] sm:tracking-[0.2em]">
+              Welcome To Rangrove Media
+            </p>
+
+            <h1 className="mb-5 text-[42px] leading-[1.05] font-extrabold tracking-tight text-white sm:mb-6 sm:text-[52px] md:text-[64px]">
+            Engineered For The Web
+            </h1>
+
+            <p className="mx-auto mb-5 max-w-[420px] text-[15px] leading-[1.65] text-gray-400 sm:mb-10 sm:text-[16px] lg:mx-0">
+            We build powerful, high-performance websites engineered to drive growth and deliver real results.
+            </p>
+
+            <button className="w-auto rounded-[14px] bg-[#e91d62] px-4 py-2.5 text-[13px] font-bold text-white transition-colors duration-300 hover:bg-[#d41555] sm:px-6 sm:py-3 sm:text-[14px]">
+              Get a free proposal
+            </button>
+          </div>
+
+          <div className="relative mt-0 flex h-[340px] w-full self-end items-end justify-center overflow-visible sm:mt-4 sm:h-[400px] lg:mt-0 lg:h-[560px] lg:justify-end">
+            <Image
+              src="/Home/Hero/Woman Image Cropped v2.webp"
+              alt="Clickboost PPC expert"
+              width={786}
+              height={563}
+              priority
+              className="pointer-events-none absolute bottom-0 left-1/2 z-10 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom sm:left-auto sm:right-0 sm:translate-x-0"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.22em] text-[#ef5b8f] sm:mb-5">
+            What We&apos;re Good At
+          </p>
+          <h2 className="max-w-[700px] text-[36px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+            Growing businesses since # years using the best PPC tools and expert knowledge.
+          </h2>
+
+          <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-12">
+            {services.map((service) => (
+              <article key={service.title} className="max-w-[240px]">
+                <div
+                  className={`flex h-[68px] w-[68px] items-center justify-center rounded-[18px] ${service.iconBg}`}
+                  style={{ color: service.iconColor }}
+                >
+                  {service.icon}
+                </div>
+                <h3 className="mt-5 text-[20px] leading-[1.2] font-bold tracking-[-0.03em] text-[#2b1179] sm:text-[22px]">
+                  {service.title}
+                </h3>
+                <p className="mt-3 text-[15px] leading-[1.55] text-[#8f82bf] sm:text-[16px]">
+                  {service.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="overflow-hidden bg-[#f5f5f7] py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="flex items-center justify-between gap-6">
+            <div>
+              <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.22em] text-[#ef5b8f] sm:mb-4">
+                Succes Stories
+              </p>
+              <h2 className="max-w-none text-[36px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+                How we&apos;ve helped others grow
+              </h2>
+            </div>
+
+            <div className="hidden items-center gap-6 pt-6 md:flex">
+              <button
+                type="button"
+                aria-label="Previous case study"
+                onClick={() => handleCaseStudiesScroll("prev")}
+                className="text-[#ef5b8f] transition-transform duration-200 hover:-translate-x-1"
+              >
+                <svg width="34" height="20" viewBox="0 0 34 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M33 10H3" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                  <path d="M10 18L2 10L10 2" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Next case study"
+                onClick={() => handleCaseStudiesScroll("next")}
+                className="text-[#ef5b8f] transition-transform duration-200 hover:translate-x-1"
+              >
+                <svg width="34" height="20" viewBox="0 0 34 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 10H31" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                  <path d="M24 2L32 10L24 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={caseStudiesScrollRef}
+            className="relative left-1/2 mt-10 w-screen -translate-x-1/2 overflow-x-auto pb-3 sm:mt-12 [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="flex min-w-max gap-5 px-4 sm:px-6 lg:pl-[calc((100vw-64rem)/2+1.5rem)] lg:pr-12">
+              {caseStudies.map((study, index) => (
+                <article
+                  key={`${study.brand}-${index}`}
+                  className="flex h-[456px] w-[320px] flex-col overflow-hidden rounded-[14px] border border-[#e4dff0] bg-white"
+                >
+                  <a
+                    href={study.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative h-[198px] overflow-hidden bg-[#f4f3f8] block"
+                    aria-label={`Open ${study.website}`}
+                  >
+                    <Image
+                      src={study.image}
+                      alt={`Website preview of ${study.website}`}
+                      fill
+                      sizes="320px"
+                      className="object-cover"
+                    />
+                  </a>
+
+                  <div className="flex flex-1 flex-col bg-white px-8 py-6">
+                    <div>
+                      <p className="mt-2 text-[18px] leading-[1.2] font-bold text-[#2b1179]">{study.website}</p>
+                      <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#5a3fa3]">
+                        {study.category}
+                      </p>
+                    </div>
+
+                    <p className="mt-4 max-w-[228px] flex-1 text-[14px] leading-[1.6] text-[#8f82bf]">
+                      {study.highlight}
+                    </p>
+
+                    <a
+                      href={study.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 flex h-[44px] w-full items-center justify-center rounded-[9px] border border-[#e2ddef] text-[15px] font-bold text-[#5a3fa3] transition-colors duration-200 hover:bg-[#f8f6fd]"
+                    >
+                      View website
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <h2 className="mx-auto max-w-[620px] text-center text-[36px] leading-[1.08] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+            What you can expect when working together with us.
+          </h2>
+
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {expectations.map((item) => (
+              <article key={item.title} className="min-h-[238px] rounded-[14px] bg-[#f0f0f6] px-7 py-6">
+                <div className="flex h-[62px] w-[62px] items-center justify-center rounded-[16px] bg-[#f4cdda] text-[#ef2b72]">
+                  {item.icon}
+                </div>
+                <h3 className="mt-6 text-[19px] leading-[1.18] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+                  {item.title}
+                </h3>
+                <p className="mt-3 max-w-[270px] text-[14px] leading-[1.5] text-[#8f82bf]">
+                  {item.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden py-16 text-white sm:py-20 lg:py-24">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
+          style={{ backgroundImage: "url('/Home/Why Choose Us/Background Mobile.webp')" }}
+        />
+        <div
+          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat sm:block"
+          style={{ backgroundImage: "url('/Home/Why Choose Us/Background.webp')" }}
+        />
+        <div className="pointer-events-none absolute right-0 top-1/2 hidden aspect-[1280/714] w-[58vw] max-w-[980px] -translate-y-1/2 lg:block">
+          <Image
+            src={whyChooseUsImage}
+            alt="Analytics dashboard preview"
+            fill
+            className="object-contain object-right"
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="max-w-[340px] pt-6 lg:pt-0">
+            <div>
+              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
+                Development Workflow
+              </p>
+              <h2 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white">
+                Modern development, built for performance
+              </h2>
+              <p className="mt-5 text-[16px] leading-[1.55] text-[#b9b4d7]">
+                We build websites using modern technologies, clean architecture, and scalable systems. Every project
+                follows a structured development workflow to ensure speed, reliability, and long-term performance.
+              </p>
+            </div>
+
+            <div className="mt-18 sm:mt-20">
+              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
+                Performance &amp; Insights
+              </p>
+              <h3 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white">
+                Websites that deliver real results
+              </h3>
+              <p className="mt-5 text-[16px] leading-[1.55] text-[#b9b4d7]">
+                From fast loading speeds to optimized user experience, every website we create is built to perform. We
+                focus on performance, scalability, and usability to help businesses grow online.
+              </p>
+            </div>
+          </div>
+          <div className="relative mt-12 aspect-[1280/714] w-full lg:hidden">
+            <Image
+              src={whyChooseUsImage}
+              alt="Analytics dashboard preview"
+              fill
+              className="object-contain object-center"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-5xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="relative mx-auto h-[520px] w-full max-w-[620px]">
+            <div className="absolute right-0 top-0 h-[194px] w-[372px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#bccfdf_0%,#dfe9f1_28%,#b7c8d7_60%,#95a5b7_100%)]" />
+            <div className="absolute left-0 top-[212px] h-[214px] w-[48%] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#dcd3c7_0%,#f2ece6_30%,#e8dfd6_62%,#cdbeb3_100%)]" />
+            <div className="absolute right-0 top-[212px] h-[390px] w-[48%] overflow-hidden rounded-[14px] bg-[linear-gradient(145deg,#e2e7ef_0%,#f3f6fb_28%,#d0d7e2_62%,#bcc6d4_100%)]" />
+          </div>
+
+          <div className="max-w-[470px] lg:justify-self-end">
+            <p className="mb-5 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
+              About Us
+            </p>
+            <h2 className="max-w-[470px] text-[36px] leading-[1.12] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+              Building powerful digital experiences for modern businesses
+            </h2>
+            <p className="mt-8 text-[16px] leading-[1.7] text-[#6d5aa6]">
+              At Rangrove Media, we focus on building high-performance websites that combine strong design, modern
+              technology, and seamless user experience. Our goal is simple: create digital platforms that help
+              businesses grow faster and stand stronger online.
+            </p>
+            <p className="mt-8 text-[16px] leading-[1.7] text-[#6d5aa6]">
+              Every project we build is crafted with precision, performance, and scalability in mind. We believe great
+              websites are not just about design, but about delivering real value, real impact, and long-term results for
+              businesses.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="max-w-none">
+            <h2 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.04em] text-[#2b1179] sm:text-[44px] lg:text-[48px]">
+              Choose how you want
+              <br />
+              to work with us.
+            </h2>
+          </div>
+
+          <div className="relative mt-12 sm:mt-14">
+            <div className="absolute right-[6%] top-[-56px] hidden text-right lg:block">
+              <div className="font-[family:var(--font-caveat)] text-[22px] text-[#3e2493]">Most popular</div>
+              <svg
+                width="112"
+                height="92"
+                viewBox="0 0 112 92"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="ml-auto mt-1 text-[#2dc9c0]"
+              >
+                <path
+                  d="M71 2C92 6 96 21 87 30C76 41 61 29 62 17C63 3 83 3 92 13C103 26 102 46 94 58C88 67 84 73 84 89"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                />
+                <path d="M79 81L84 89L90 81" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-7">
+              {workTogetherOptions.map((option) => (
+                <article key={option.number} className="bg-[#efeff5] px-8 pb-9 pt-0">
+                  <div
+                    className="relative flex h-[68px] w-[42px] items-center justify-center text-[17px] font-extrabold"
+                    style={{
+                      backgroundColor: option.ribbonBg,
+                      color: option.ribbonText,
+                      clipPath: "polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%)",
+                    }}
+                  >
+                    {option.number}
+                  </div>
+                  <h3 className="mt-10 max-w-[180px] text-[20px] leading-[1.1] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+                    {option.title}
+                  </h3>
+                  <p className="mt-6 max-w-[210px] text-[15px] leading-[1.55] text-[#8f82bf]">
+                    {option.description}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-20 text-center sm:mt-24">
+            <h3 className="text-[38px] leading-[1.08] font-extrabold tracking-[-0.04em] text-[#2b1179] sm:text-[50px]">
+              Ready to boost clicks?
+            </h3>
+            <form className="mx-auto mt-8 grid w-full max-w-[700px] gap-6 text-left sm:grid-cols-[1fr_1fr]">
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4]">
+                Name
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your full name"
+                  className="mt-2 h-[46px] w-full border-b border-[#ddd6ee] bg-transparent px-0 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4]">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@company.com"
+                  className="mt-2 h-[46px] w-full border-b border-[#ddd6ee] bg-transparent px-0 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4] sm:col-span-2">
+                Project Brief
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Tell us about your website goals"
+                  className="mt-2 min-h-[130px] w-full resize-none border-b border-[#ddd6ee] bg-transparent px-0 py-3 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-[13px] text-[#8f82bf]">We reply within 1 business day.</p>
+                <button
+                  type="submit"
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-[#ef2b72] px-6 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#db1e63]"
+                >
+                  Request proposal
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-[#09043c] text-white">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+          <div className="grid gap-12 border-b border-white/10 pb-10 sm:pb-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
+            <div className="max-w-[280px]">
+              <div className="relative h-[30px] w-[143px]">
+                <Image src="/Brand/Logo.png" alt="Rangrove Media" fill className="object-contain object-left" />
+              </div>
+              <p className="mt-5 text-[15px] leading-[1.7] text-[#b8b2d7]">
+                Dedicated PPC strategy, management, and creative execution built to grow ambitious brands.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Navigation</h3>
+              <div className="mt-5 space-y-3 text-[15px] text-[#b8b2d7]">
+                <a href="#" className="block transition-colors hover:text-white">
+                  What we do
+                </a>
+                <a href="#" className="block transition-colors hover:text-white">
+                  Our Team
+                </a>
+                <a href="#" className="block transition-colors hover:text-white">
+                  Case Studies
+                </a>
+                <a href="#" className="block transition-colors hover:text-white">
+                  Contact Us
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Contact</h3>
+              <div className="mt-5 space-y-3 text-[15px] text-[#b8b2d7]">
+                <p>hello@rangrove.com</p>
+                <p>+91 98765 43210</p>
+                <p>New Delhi, India</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Let&apos;s Talk</h3>
+              <p className="mt-5 text-[15px] leading-[1.7] text-[#b8b2d7]">
+                Tell us what you need and we&apos;ll put together a focused proposal.
+              </p>
+              <button className="mt-6 inline-flex h-[50px] items-center justify-center rounded-[14px] bg-[#ef2b72] px-6 text-[15px] font-extrabold text-white transition-colors duration-200 hover:bg-[#db1e63]">
+                Get a free proposal
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 pt-6 text-[13px] text-[#8b84b3] sm:flex-row sm:items-center sm:justify-between">
+            <p>© 2026 Rangrove Media. All rights reserved.</p>
+            <div className="flex items-center gap-5">
+              <a href="#" className="transition-colors hover:text-white">
+                Privacy Policy
+              </a>
+              <a href="#" className="transition-colors hover:text-white">
+                Terms
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
