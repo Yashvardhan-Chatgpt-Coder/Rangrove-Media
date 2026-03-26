@@ -410,7 +410,7 @@ export default function Home() {
     try {
       setFormStatus("sending");
       setFormMessage("");
-      const response = await fetch("https://formsubmit.io/send/yashvardhan.chauhan@outlook.com", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         body: formData,
         headers: { Accept: "application/json" },
@@ -421,7 +421,7 @@ export default function Home() {
       }
 
       setFormStatus("success");
-      setFormMessage("Thanks! Your message has been sent. We’ll get back within 24 hours.");
+      setFormMessage("Thanks! Your message has been sent. We'll get back within 24 hours.");
       form.reset();
     } catch (error) {
       setFormStatus("error");
