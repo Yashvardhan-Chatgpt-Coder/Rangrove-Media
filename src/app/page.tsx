@@ -931,10 +931,10 @@ export default function Home() {
                         </svg>
                       </span>
                       <a
-                        href="mailto:contact@media.rangrove.com"
+                        href="mailto:contact@rangrove.com"
                         className="transition-colors hover:text-white focus-visible:outline-none focus-visible:underline"
                       >
-                        contact@media.rangrove.com
+                        contact@rangrove.com
                       </a>
                     </div>
                   </div>
@@ -1077,8 +1077,8 @@ export default function Home() {
             <div>
               <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Contact</h3>
               <div className="mt-5 space-y-3 text-[15px] text-[#b8b2d7]">
-                <a href="mailto:contact@media.rangrove.com" className="block transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
-                  contact@media.rangrove.com
+                <a href="mailto:contact@rangrove.com" className="block transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+                  contact@rangrove.com
                 </a>
                 <a href="tel:+919119724096" className="block transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
                   +91 9119724096
