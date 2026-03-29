@@ -149,6 +149,16 @@ export default function Home() {
       tone: "mint",
     },
     {
+      brand: "Rangrove Studio",
+      subtitle: "",
+      website: "Rangrove Studio",
+      category: "Digital Assets Platform",
+      highlight: "A digital assets selling platform designed for easy discovery, previews, and fast purchases.",
+      url: "https://studio.rangrove.com",
+      image: "/Home/Our%20Work/Rangrove%20Studio.jpg",
+      tone: "sand",
+    },
+    {
       brand: "ARRAN",
       subtitle: "SENSE OF SCOTLAND",
       website: "tech.paradiseyatra.com",
