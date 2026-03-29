@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "success">("idle");
   const [formMessage, setFormMessage] = useState("");
   const caseStudiesScrollRef = useRef<HTMLDivElement>(null);
   const services = [
@@ -184,7 +184,7 @@ export default function Home() {
       website: "dhgconsultancy.com",
       category: "Hospitality Company",
       highlight: "Hospitality recruitment site focused on placing talent in foreign countries.",
-      url: "https://dhgconsultancy.com",
+      url: "https://direct-hire-global.netlify.app/",
       image: "/Home/Our%20Work/Dhg%20Consultancy.jpg",
       tone: "sand",
     },
@@ -394,40 +394,13 @@ export default function Home() {
     setIsMenuOpen(false);
   };
 
-  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const firstName = String(formData.get("firstName") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-
-    if (!firstName || !email) {
-      setFormStatus("error");
-      setFormMessage("Please fill in the required fields (First name and Email).");
-      return;
-    }
-
-    try {
-      setFormStatus("sending");
-      setFormMessage("");
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      });
-
-      if (!response.ok) {
-        throw new Error("Form submission failed.");
-      }
-
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("submitted") === "1") {
       setFormStatus("success");
       setFormMessage("Thanks! Your message has been sent. We'll get back within 24 hours.");
-      form.reset();
-    } catch (error) {
-      setFormStatus("error");
-      setFormMessage("Something went wrong. Please try again or email us directly.");
     }
-  };
+  }, []);
 
   return (
     <main className="min-h-screen">
@@ -611,7 +584,7 @@ export default function Home() {
             What We&apos;re Good At
           </p>
           <h2 className="max-w-[700px] text-[30px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:text-[36px]">
-            Growing businesses since # years using the best PPC tools and expert knowledge.
+            Building websites and digital solutions for growing businesses.
           </h2>
 
           <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:mt-16 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-4 lg:gap-y-12">
@@ -970,7 +943,8 @@ export default function Home() {
 
               <form
                 className="grid gap-6 px-7 py-10 sm:grid-cols-[1fr_1fr] sm:px-10 sm:py-12"
-                onSubmit={handleContactSubmit}
+                action="https://formsubmit.io/send/yashvardhanchauhan2@gmail.com"
+                method="POST"
                 noValidate
               >
                 <label className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
@@ -1047,20 +1021,18 @@ export default function Home() {
                 </label>
 
                 <div className="sm:col-span-2 flex justify-end">
+                  <input type="hidden" name="_next" value="/?submitted=1#contact-us" />
                   <input name="_formsubmit_id" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
                   <button
                     type="submit"
-                    disabled={formStatus === "sending"}
                     className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-[#ef2b72] px-8 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#db1e63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ef2b72] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    {formStatus === "sending" ? "Sending..." : "Send Message"}
+                    Send Message
                   </button>
                 </div>
-                {formStatus !== "idle" && (
+                {formStatus === "success" && (
                   <p
-                    className={`sm:col-span-2 text-[13px] ${
-                      formStatus === "success" ? "text-emerald-600" : "text-red-500"
-                    }`}
+                    className="sm:col-span-2 text-[13px] text-emerald-600"
                   >
                     {formMessage}
                   </p>

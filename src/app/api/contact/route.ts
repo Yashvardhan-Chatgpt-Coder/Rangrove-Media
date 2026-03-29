@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const response = await fetch("https://formsubmit.io/send/yashvardhan.chauhan@outlook.com", {
+  const response = await fetch("https://formsubmit.io/send/yashvardhanchauhan2@gmail.com", {
     method: "POST",
     body: formData,
     headers: { Accept: "application/json" },
