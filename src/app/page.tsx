@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from "react";
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [formStatus, setFormStatus] = useState<"idle" | "success">("idle");
-  const [formMessage, setFormMessage] = useState("");
   const caseStudiesScrollRef = useRef<HTMLDivElement>(null);
   const services = [
     {
@@ -124,7 +122,7 @@ export default function Home() {
       website: "paradiseyatra.com",
       category: "Travel Company",
       highlight: "A warm, destination-led site that makes trip discovery and inquiries simple.",
-      url: "https://paradiseyatra.com",
+      url: "https://paradise-yatra.vercel.app/",
       image: "/Home/Our%20Work/Paradise%20Yatra.jpg",
       tone: "lavender",
     },
@@ -139,6 +137,16 @@ export default function Home() {
       tone: "sand",
     },
     {
+      brand: "GRex PreSchool",
+      subtitle: "",
+      website: "GRex PreSchool",
+      category: "Preschool Website",
+      highlight: "A bright preschool website designed to introduce programs, build trust, and guide parent inquiries.",
+      url: "https://preschool-website-two.vercel.app/",
+      image: "/Home/Our%20Work/GRex%20PreSchool.png",
+      tone: "sand",
+    },
+    {
       brand: "spaceist",
       subtitle: "",
       website: "suite.rangrove.com",
@@ -147,36 +155,6 @@ export default function Home() {
       url: "https://suite.rangrove.com",
       image: "/Home/Our%20Work/Rangrove%20Suite.jpg",
       tone: "mint",
-    },
-    {
-      brand: "Rangrove Studio",
-      subtitle: "",
-      website: "Rangrove Studio",
-      category: "Digital Assets Platform",
-      highlight: "A digital assets selling platform designed for easy discovery, previews, and fast purchases.",
-      url: "https://studio.rangrove.com",
-      image: "/Home/Our%20Work/Rangrove%20Studio.jpg",
-      tone: "sand",
-    },
-    {
-      brand: "ARRAN",
-      subtitle: "SENSE OF SCOTLAND",
-      website: "tech.paradiseyatra.com",
-      category: "CRM Software",
-      highlight: "Feature-driven CRM pages with strong hierarchy and product clarity.",
-      url: "https://tech.paradiseyatra.com",
-      image: "/Home/Our%20Work/Tech%20Paradise%20Yatra.jpg",
-      tone: "lavender",
-    },
-    {
-      brand: "Rangrove News",
-      subtitle: "",
-      website: "news.rangrove.com",
-      category: "News Company",
-      highlight: "Editorial layout built for readability, speed, and topic discovery.",
-      url: "https://news.rangrove.com",
-      image: "/Home/Our%20Work/Rangrove%20News.jpg",
-      tone: "sand",
     },
     {
       brand: "Rangrove School",
@@ -194,7 +172,7 @@ export default function Home() {
       website: "dhgconsultancy.com",
       category: "Hospitality Company",
       highlight: "Hospitality recruitment site focused on placing talent in foreign countries.",
-      url: "https://direct-hire-global.netlify.app/",
+      url: "https://dhgconsultancy.com",
       image: "/Home/Our%20Work/Dhg%20Consultancy.jpg",
       tone: "sand",
     },
@@ -357,22 +335,13 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [isMenuOpen]);
+  const handleNavClick = (id: string) => {
+    setIsMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const handleCaseStudiesScroll = (direction: "prev" | "next") => {
     const container = caseStudiesScrollRef.current;
@@ -386,31 +355,6 @@ export default function Home() {
       behavior: "smooth",
     });
   };
-
-  const handleNavClick = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (!section) {
-      return;
-    }
-
-    const headerOffset = 110;
-    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-
-    window.scrollTo({
-      top: Math.max(sectionTop - headerOffset, 0),
-      behavior: "smooth",
-    });
-
-    setIsMenuOpen(false);
-  };
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("submitted") === "1") {
-      setFormStatus("success");
-      setFormMessage("Thanks! Your message has been sent. We'll get back within 24 hours.");
-    }
-  }, []);
 
   return (
     <main className="min-h-screen">
@@ -428,31 +372,26 @@ export default function Home() {
           <nav
             className={`mx-auto flex w-full max-w-5xl items-center justify-between rounded-[14px] px-4 py-2.5 transition-all duration-300 sm:px-6 sm:py-3 ${
               isScrolled || isMenuOpen
-                ? "border border-white/20 bg-[#09043c] shadow-[0_18px_40px_-28px_rgba(0,0,0,0.7)]"
-                : "border border-transparent bg-transparent"
+                ? "bg-[#09043c] shadow-[0_18px_40px_-28px_rgba(0,0,0,0.7)]"
+                : "bg-transparent"
             }`}
           >
-            <button
-              type="button"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="group relative h-[24px] w-[114px] cursor-pointer rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c] sm:h-[30px] sm:w-[143px]"
-              aria-label="Back to top"
-            >
+            <div className="group relative h-[24px] w-[114px] cursor-pointer sm:h-[30px] sm:w-[143px]">
               <Image
                 src="/Brand/Logo.png"
-                alt="Rangrove Media"
+                alt="Clickboost"
                 fill
                 priority
                 className="object-contain object-left transition-transform group-hover:scale-[1.02]"
               />
-            </button>
+            </div>
 
             <button
               type="button"
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen((value) => !value)}
-              className={`relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-[14px] border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c] md:hidden ${
+              className={`relative flex h-11 w-11 items-center justify-center rounded-[14px] border transition-all duration-300 md:hidden ${
                 isScrolled || isMenuOpen
                   ? "border-white/12 bg-white/8 backdrop-blur-sm"
                   : "border-white/10 bg-transparent"
@@ -478,35 +417,31 @@ export default function Home() {
               </span>
             </button>
 
-            <div className="hidden items-center space-x-5 text-[13px] font-medium text-gray-300 md:flex">
-              <button
-                type="button"
-                onClick={() => handleNavClick("what-we-do")}
-                className="cursor-pointer rounded-[8px] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c]"
+            <div className="hidden items-center space-x-6 text-[14px] font-semibold text-gray-200 md:flex">
+              <a
+                href="#what-we-do"
+                className="cursor-pointer transition-colors hover:text-white"
               >
                 What we do
-              </button>
-              <button
-                type="button"
-                onClick={() => handleNavClick("our-work")}
-                className="cursor-pointer rounded-[8px] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c]"
+              </a>
+              <a
+                href="#our-work"
+                className="cursor-pointer transition-colors hover:text-white"
               >
                 Our Work
-              </button>
-              <button
-                type="button"
-                onClick={() => handleNavClick("why-work-with-us")}
-                className="cursor-pointer rounded-[8px] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c]"
+              </a>
+              <a
+                href="#why-work-with-us"
+                className="cursor-pointer transition-colors hover:text-white"
               >
                 Why work with us
-              </button>
-              <button
-                type="button"
-                onClick={() => handleNavClick("contact-us")}
-                className="cursor-pointer rounded-[8px] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c]"
+              </a>
+              <a
+                href="#contact-us"
+                className="cursor-pointer transition-colors hover:text-white"
               >
                 Contact Us
-              </button>
+              </a>
             </div>
           </nav>
 
@@ -517,34 +452,34 @@ export default function Home() {
           >
             <div className="mx-auto w-full max-w-5xl px-0 pb-4">
               <div className="rounded-[14px] border border-white/10 bg-[#09043c] p-3 shadow-[0_20px_60px_-24px_rgba(0,0,0,0.75)]">
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("what-we-do")}
-                  className="block w-full cursor-pointer rounded-[10px] px-4 py-3 text-left text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                <a
+                  href="#what-we-do"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full cursor-pointer text-left rounded-[10px] px-4 py-3 text-base font-semibold text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
                 >
                   What we do
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("our-work")}
-                  className="block w-full cursor-pointer rounded-[10px] px-4 py-3 text-left text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                </a>
+                <a
+                  href="#our-work"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full cursor-pointer text-left rounded-[10px] px-4 py-3 text-base font-semibold text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
                 >
                   Our Work
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("why-work-with-us")}
-                  className="block w-full cursor-pointer rounded-[10px] px-4 py-3 text-left text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                </a>
+                <a
+                  href="#why-work-with-us"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full cursor-pointer text-left rounded-[10px] px-4 py-3 text-base font-semibold text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
                 >
                   Why work with us
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick("contact-us")}
-                  className="block w-full cursor-pointer rounded-[10px] px-4 py-3 text-left text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                </a>
+                <a
+                  href="#contact-us"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full cursor-pointer text-left rounded-[10px] px-4 py-3 text-base font-semibold text-white/85 transition-all duration-200 hover:bg-white/8 hover:text-white"
                 >
                   Contact Us
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -566,11 +501,7 @@ export default function Home() {
             We build powerful, high-performance websites engineered to drive growth and deliver real results.
             </p>
 
-            <button
-              type="button"
-              onClick={() => handleNavClick("contact-us")}
-              className="w-auto cursor-pointer rounded-full bg-[#e91d62] px-4 py-2.5 text-[13px] font-bold text-white transition-colors duration-300 hover:bg-[#d41555] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:px-6 sm:py-3 sm:text-[14px]"
-            >
+            <button className="w-auto rounded-[14px] bg-[#e91d62] px-4 py-2.5 text-[13px] font-bold text-white transition-colors duration-300 hover:bg-[#d41555] sm:px-6 sm:py-3 sm:text-[14px]">
               Get a free proposal
             </button>
           </div>
@@ -578,7 +509,7 @@ export default function Home() {
           <div className="relative mt-0 flex h-[340px] w-full self-end items-end justify-center overflow-visible sm:mt-4 sm:h-[400px] lg:mt-0 lg:h-[560px] lg:justify-end">
             <Image
               src="/Home/Hero/Woman Image Cropped v2.webp"
-              alt="Rangrove Media website expert"
+              alt="Clickboost PPC expert"
               width={786}
               height={563}
               priority
@@ -593,23 +524,23 @@ export default function Home() {
           <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.22em] text-[#ef5b8f] sm:mb-5">
             What We&apos;re Good At
           </p>
-          <h2 className="max-w-[700px] text-[30px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:text-[36px]">
-            Building websites and digital solutions for growing businesses.
+          <h2 className="max-w-[700px] text-[36px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179]">
+            Growing businesses since # years using the best PPC tools and expert knowledge.
           </h2>
 
-          <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:mt-16 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-4 lg:gap-y-12">
+          <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-12">
             {services.map((service) => (
               <article key={service.title} className="max-w-[240px]">
                 <div
-                  className={`flex h-[56px] w-[56px] items-center justify-center rounded-[16px] ${service.iconBg} sm:h-[68px] sm:w-[68px] sm:rounded-[18px]`}
+                  className={`flex h-[68px] w-[68px] items-center justify-center rounded-[18px] ${service.iconBg}`}
                   style={{ color: service.iconColor }}
                 >
                   {service.icon}
                 </div>
-                <h3 className="mt-4 text-[16px] leading-[1.2] font-bold tracking-[-0.03em] text-[#2b1179] sm:mt-5 sm:text-[22px]">
+                <h3 className="mt-5 text-[20px] leading-[1.2] font-bold tracking-[-0.03em] text-[#2b1179] sm:text-[22px]">
                   {service.title}
                 </h3>
-                <p className="mt-2 text-[13px] leading-[1.5] text-[#8f82bf] sm:mt-3 sm:text-[16px]">
+                <p className="mt-3 text-[15px] leading-[1.55] text-[#8f82bf] sm:text-[16px]">
                   {service.description}
                 </p>
               </article>
@@ -625,7 +556,7 @@ export default function Home() {
               <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.22em] text-[#ef5b8f] sm:mb-4">
                 Succes Stories
               </p>
-              <h2 className="max-w-none text-[30px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:text-[36px]">
+              <h2 className="max-w-none text-[36px] leading-[1.14] font-extrabold tracking-[-0.03em] text-[#2b1179]">
                 How we&apos;ve helped others grow
               </h2>
             </div>
@@ -635,7 +566,7 @@ export default function Home() {
                 type="button"
                 aria-label="Previous case study"
                 onClick={() => handleCaseStudiesScroll("prev")}
-                className="cursor-pointer rounded-full text-[#ef5b8f] transition-transform duration-200 hover:-translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ef5b8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f5f7]"
+                className="text-[#ef5b8f] transition-transform duration-200 hover:-translate-x-1"
               >
                 <svg width="34" height="20" viewBox="0 0 34 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M33 10H3" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
@@ -646,7 +577,7 @@ export default function Home() {
                 type="button"
                 aria-label="Next case study"
                 onClick={() => handleCaseStudiesScroll("next")}
-                className="cursor-pointer rounded-full text-[#ef5b8f] transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ef5b8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f5f7]"
+                className="text-[#ef5b8f] transition-transform duration-200 hover:translate-x-1"
               >
                 <svg width="34" height="20" viewBox="0 0 34 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 10H31" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
@@ -670,7 +601,7 @@ export default function Home() {
                     href={study.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="block relative h-[198px] overflow-hidden rounded-t-[14px] bg-[#f4f3f8] transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5a3fa3] focus-visible:ring-inset"
+                    className="relative h-[198px] overflow-hidden bg-[#f4f3f8] block"
                     aria-label={`Open ${study.website}`}
                   >
                     <Image
@@ -698,7 +629,7 @@ export default function Home() {
                       href={study.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-5 flex h-[44px] w-full cursor-pointer items-center justify-center rounded-[9px] border border-[#e2ddef] text-[15px] font-bold text-[#5a3fa3] transition-colors duration-200 hover:bg-[#f8f6fd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5a3fa3] focus-visible:ring-offset-2"
+                      className="mt-5 flex h-[44px] w-full items-center justify-center rounded-[9px] border border-[#e2ddef] text-[15px] font-bold text-[#5a3fa3] transition-colors duration-200 hover:bg-[#f8f6fd]"
                     >
                       View website
                     </a>
@@ -712,20 +643,20 @@ export default function Home() {
 
       <section id="why-work-with-us" className="bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <h2 className="mx-auto max-w-[620px] text-center text-[30px] leading-[1.08] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:text-[36px]">
+          <h2 className="mx-auto max-w-[620px] text-center text-[36px] leading-[1.08] font-extrabold tracking-[-0.03em] text-[#2b1179]">
             What you can expect when working together with us.
           </h2>
 
-          <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {expectations.map((item) => (
-              <article key={item.title} className="min-h-[220px] rounded-[14px] bg-[#f0f0f6] px-4 py-5 sm:min-h-[238px] sm:px-7 sm:py-6">
-                <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-[#f4cdda] text-[#ef2b72] sm:h-[62px] sm:w-[62px] sm:rounded-[16px]">
+              <article key={item.title} className="min-h-[238px] rounded-[14px] bg-[#f0f0f6] px-7 py-6">
+                <div className="flex h-[62px] w-[62px] items-center justify-center rounded-[16px] bg-[#f4cdda] text-[#ef2b72]">
                   {item.icon}
                 </div>
-                <h3 className="mt-4 text-[16px] leading-[1.18] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:mt-6 sm:text-[19px]">
+                <h3 className="mt-6 text-[19px] leading-[1.18] font-extrabold tracking-[-0.03em] text-[#2b1179]">
                   {item.title}
                 </h3>
-                <p className="mt-2 max-w-[270px] text-[12px] leading-[1.45] text-[#8f82bf] sm:mt-3 sm:text-[14px]">
+                <p className="mt-3 max-w-[270px] text-[14px] leading-[1.5] text-[#8f82bf]">
                   {item.description}
                 </p>
               </article>
@@ -734,7 +665,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-14 text-white sm:py-20 lg:py-24">
+      <section className="relative overflow-hidden py-16 text-white sm:py-20 lg:py-24">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
           style={{ backgroundImage: "url('/Home/Why Choose Us/Background Mobile.webp')" }}
@@ -753,34 +684,34 @@ export default function Home() {
         </div>
 
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="max-w-full pt-4 sm:max-w-[340px] sm:pt-6 lg:pt-0">
+          <div className="max-w-[340px] pt-6 lg:pt-0">
             <div>
               <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
                 Development Workflow
               </p>
-              <h2 className="text-[30px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white sm:text-[36px]">
+              <h2 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white">
                 Modern development, built for performance
               </h2>
-              <p className="mt-4 max-w-[32rem] text-[15px] leading-[1.6] text-[#b9b4d7] sm:mt-5 sm:text-[16px]">
+              <p className="mt-5 text-[16px] leading-[1.55] text-[#b9b4d7]">
                 We build websites using modern technologies, clean architecture, and scalable systems. Every project
                 follows a structured development workflow to ensure speed, reliability, and long-term performance.
               </p>
             </div>
 
-            <div className="mt-12 sm:mt-20">
+            <div className="mt-18 sm:mt-20">
               <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
                 Performance &amp; Insights
               </p>
-              <h3 className="text-[30px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white sm:text-[36px]">
+              <h3 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.03em] text-white">
                 Websites that deliver real results
               </h3>
-              <p className="mt-4 max-w-[32rem] text-[15px] leading-[1.6] text-[#b9b4d7] sm:mt-5 sm:text-[16px]">
+              <p className="mt-5 text-[16px] leading-[1.55] text-[#b9b4d7]">
                 From fast loading speeds to optimized user experience, every website we create is built to perform. We
                 focus on performance, scalability, and usability to help businesses grow online.
               </p>
             </div>
           </div>
-          <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden rounded-[14px] sm:mt-12 sm:aspect-[1280/714] lg:hidden">
+          <div className="relative mt-12 aspect-[1280/714] w-full lg:hidden">
             <Image
               src={whyChooseUsImage}
               alt="Analytics dashboard preview"
@@ -793,11 +724,17 @@ export default function Home() {
 
       <section className="bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
         <div className="mx-auto grid max-w-5xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="relative mx-auto h-[520px] w-full max-w-[620px]">
+            <div className="absolute right-0 top-0 h-[194px] w-[372px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#bccfdf_0%,#dfe9f1_28%,#b7c8d7_60%,#95a5b7_100%)]" />
+            <div className="absolute left-0 top-[212px] h-[214px] w-[48%] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#dcd3c7_0%,#f2ece6_30%,#e8dfd6_62%,#cdbeb3_100%)]" />
+            <div className="absolute right-0 top-[212px] h-[390px] w-[48%] overflow-hidden rounded-[14px] bg-[linear-gradient(145deg,#e2e7ef_0%,#f3f6fb_28%,#d0d7e2_62%,#bcc6d4_100%)]" />
+          </div>
+
           <div className="max-w-[470px] lg:justify-self-end">
             <p className="mb-5 text-[12px] font-bold uppercase tracking-[0.28em] text-[#ef2b72]">
               About Us
             </p>
-            <h2 className="max-w-[470px] text-[30px] leading-[1.12] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:text-[36px]">
+            <h2 className="max-w-[470px] text-[36px] leading-[1.12] font-extrabold tracking-[-0.03em] text-[#2b1179]">
               Building powerful digital experiences for modern businesses
             </h2>
             <p className="mt-8 text-[16px] leading-[1.7] text-[#6d5aa6]">
@@ -811,43 +748,13 @@ export default function Home() {
               businesses.
             </p>
           </div>
-
-          <div className="relative mx-auto h-[520px] w-full max-w-[620px]">
-            <div className="absolute left-0 top-0 h-[194px] w-full overflow-hidden rounded-[14px]">
-              <Image
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-                alt="Team collaborating in a modern workspace"
-                fill
-                sizes="(max-width: 1024px) 100vw, 620px"
-                className="object-cover"
-              />
-            </div>
-            <div className="absolute left-0 top-[212px] h-[214px] w-[48%] overflow-hidden rounded-[14px]">
-              <Image
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
-                alt="Website planning on a laptop"
-                fill
-                sizes="(max-width: 1024px) 48vw, 300px"
-                className="object-cover"
-              />
-            </div>
-            <div className="absolute right-0 top-[212px] h-[390px] w-[48%] overflow-hidden rounded-[14px]">
-              <Image
-                src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80"
-                alt="Designer working on a digital product"
-                fill
-                sizes="(max-width: 1024px) 48vw, 300px"
-                className="object-cover"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
-      <section id="contact-us" className="relative bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
+      <section className="relative bg-[#f5f5f7] py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="max-w-none">
-            <h2 className="text-[30px] leading-[1.12] font-extrabold tracking-[-0.04em] text-[#2b1179] sm:text-[36px]">
+            <h2 className="text-[34px] leading-[1.12] font-extrabold tracking-[-0.04em] text-[#2b1179] sm:text-[44px] lg:text-[48px]">
               Choose how you want
               <br />
               to work with us.
@@ -875,11 +782,11 @@ export default function Home() {
               </svg>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-4 xl:gap-7">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-7">
               {workTogetherOptions.map((option) => (
-                <article key={option.number} className="rounded-[14px] bg-[#efeff5] px-4 pb-7 pt-0 sm:px-8 sm:pb-9">
+                <article key={option.number} className="bg-[#efeff5] px-8 pb-9 pt-0">
                   <div
-                    className="relative flex h-[60px] w-[38px] items-center justify-center text-[15px] font-extrabold sm:h-[68px] sm:w-[42px] sm:text-[17px]"
+                    className="relative flex h-[68px] w-[42px] items-center justify-center text-[17px] font-extrabold"
                     style={{
                       backgroundColor: option.ribbonBg,
                       color: option.ribbonText,
@@ -888,10 +795,10 @@ export default function Home() {
                   >
                     {option.number}
                   </div>
-                  <h3 className="mt-7 max-w-[180px] text-[16px] leading-[1.1] font-extrabold tracking-[-0.03em] text-[#2b1179] sm:mt-10 sm:text-[20px]">
+                  <h3 className="mt-10 max-w-[180px] text-[20px] leading-[1.1] font-extrabold tracking-[-0.03em] text-[#2b1179]">
                     {option.title}
                   </h3>
-                  <p className="mt-4 max-w-[210px] text-[13px] leading-[1.45] text-[#8f82bf] sm:mt-6 sm:text-[15px] sm:leading-[1.55]">
+                  <p className="mt-6 max-w-[210px] text-[15px] leading-[1.55] text-[#8f82bf]">
                     {option.description}
                   </p>
                 </article>
@@ -899,156 +806,48 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-20 sm:mt-24">
-            <div className="mx-auto grid w-full max-w-5xl overflow-hidden rounded-[14px] bg-white lg:grid-cols-[0.92fr_1.08fr]">
-              <div
-                className="relative overflow-hidden bg-cover bg-center px-7 py-10 text-white sm:px-10 sm:py-12"
-                style={{ backgroundImage: "url('/Home/Contact Us/Image.webp')" }}
-              >
-                <div className="relative z-10">
-                  <h3 className="text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em]">Contact Information</h3>
-                  <p className="mt-3 text-[14px] leading-[1.6] text-white/70">
-                    Fill up the form and our team will get back to you within 24 hours.
-                  </p>
-
-                  <div className="mt-8 space-y-5 text-[14px] text-white/85">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M5.5 4.5L9 5.5C9.7 5.6 10.2 6.2 10.1 6.9L9.6 9.6C9.5 10.1 9.7 10.7 10.2 11.1C11.8 12.4 13.4 14 14.8 15.7C15.2 16.2 15.8 16.4 16.4 16.3L19.1 15.8C19.8 15.7 20.4 16.2 20.6 16.9L21.5 20.4C21.7 21.2 21.2 22 20.4 22.1C18.1 22.5 15.8 22.1 13.7 21C9.5 18.9 6 15.5 3.9 11.3C2.8 9.2 2.4 6.9 2.8 4.6C2.9 3.8 3.7 3.3 4.5 3.5L5.5 4.5Z"
-                            stroke="currentColor"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </span>
-                      <a href="tel:+919119724096" className="transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
-                        +91 9119724096
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M3 6.5C3 5.7 3.7 5 4.5 5H19.5C20.3 5 21 5.7 21 6.5V17.5C21 18.3 20.3 19 19.5 19H4.5C3.7 19 3 18.3 3 17.5V6.5Z"
-                            stroke="currentColor"
-                            strokeWidth="1.6"
-                            strokeLinejoin="round"
-                          />
-                          <path d="M4 7L12 12L20 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                        </svg>
-                      </span>
-                      <a
-                        href="mailto:contact@rangrove.com"
-                        className="transition-colors hover:text-white focus-visible:outline-none focus-visible:underline"
-                      >
-                        contact@rangrove.com
-                      </a>
-                    </div>
-                  </div>
-                </div>
+          <div id="contact-us" className="mt-20 text-center sm:mt-24">
+            <h3 className="text-[38px] leading-[1.08] font-extrabold tracking-[-0.04em] text-[#2b1179] sm:text-[50px]">
+              Ready to boost clicks?
+            </h3>
+            <form className="mx-auto mt-8 grid w-full max-w-[700px] gap-6 text-left sm:grid-cols-[1fr_1fr]">
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4]">
+                Name
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your full name"
+                  className="mt-2 h-[46px] w-full border-b border-[#ddd6ee] bg-transparent px-0 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4]">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@company.com"
+                  className="mt-2 h-[46px] w-full border-b border-[#ddd6ee] bg-transparent px-0 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <label className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9a8fc4] sm:col-span-2">
+                Project Brief
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Tell us about your website goals"
+                  className="mt-2 min-h-[130px] w-full resize-none border-b border-[#ddd6ee] bg-transparent px-0 py-3 text-[15px] font-medium text-[#2b1179] placeholder:text-[#c3bbdf] transition-colors duration-200 focus:border-[#ef2b72] focus:outline-none"
+                />
+              </label>
+              <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-[13px] text-[#8f82bf]">We reply within 1 business day.</p>
+                <button
+                  type="submit"
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-[#ef2b72] px-6 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#db1e63]"
+                >
+                  Request proposal
+                </button>
               </div>
-
-              <form
-                className="grid gap-6 px-7 py-10 sm:grid-cols-[1fr_1fr] sm:px-10 sm:py-12"
-                action="https://formsubmit.io/send/yashvardhanchauhan2@gmail.com"
-                method="POST"
-                noValidate
-              >
-                <label className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                  First Name
-                  <input
-                    type="text"
-                    name="firstName"
-                    placeholder="John"
-                    aria-required="true"
-                    className="mt-2 h-[46px] w-full border-b border-[#e3ddf2] bg-transparent px-0 text-[15px] font-normal text-[#2b1179] placeholder:text-[#b7addb] focus:border-[#5a3fa3] focus:outline-none"
-                  />
-                </label>
-                <label className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                  Last Name
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Doe"
-                    className="mt-2 h-[46px] w-full border-b border-[#e3ddf2] bg-transparent px-0 text-[15px] font-normal text-[#2b1179] placeholder:text-[#b7addb] focus:border-[#5a3fa3] focus:outline-none"
-                  />
-                </label>
-                <label className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="you@company.com"
-                    aria-required="true"
-                    className="mt-2 h-[46px] w-full border-b border-[#e3ddf2] bg-transparent px-0 text-[15px] font-normal text-[#2b1179] placeholder:text-[#b7addb] focus:border-[#5a3fa3] focus:outline-none focus-visible:ring-0"
-                  />
-                </label>
-                <label className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                  Phone
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="+91 98765 43210"
-                    className="mt-2 h-[46px] w-full border-b border-[#e3ddf2] bg-transparent px-0 text-[15px] font-normal text-[#2b1179] placeholder:text-[#b7addb] focus:border-[#5a3fa3] focus:outline-none focus-visible:ring-0"
-                  />
-                </label>
-
-                <div className="sm:col-span-2">
-                  <p className="text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                    What type of website do you need?
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-5 text-[14px] text-[#5a3fa3]">
-                    <label className="flex cursor-pointer items-center gap-2">
-                      <input type="radio" name="service" className="h-4 w-4 accent-[#5a3fa3]" />
-                      Web Design
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-2">
-                      <input type="radio" name="service" className="h-4 w-4 accent-[#5a3fa3]" defaultChecked />
-                      Web Development
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-2">
-                      <input type="radio" name="service" className="h-4 w-4 accent-[#5a3fa3]" />
-                      Logo Design
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-2">
-                      <input type="radio" name="service" className="h-4 w-4 accent-[#5a3fa3]" />
-                      Other
-                    </label>
-                  </div>
-                </div>
-
-                <label className="sm:col-span-2 text-[13px] font-medium tracking-[0.02em] text-[#6d5aa6]">
-                  Message
-                  <textarea
-                    name="message"
-                    rows={2}
-                    placeholder="Write your message..."
-                    className="mt-2 min-h-[72px] w-full resize-none border-b border-[#e3ddf2] bg-transparent px-0 py-1 text-[15px] leading-[1.5] font-normal text-[#2b1179] placeholder:text-[#b7addb] focus:border-[#5a3fa3] focus:outline-none focus-visible:ring-0"
-                  />
-                </label>
-
-                <div className="sm:col-span-2 flex justify-end">
-                  <input type="hidden" name="_next" value="/?submitted=1#contact-us" />
-                  <input name="_formsubmit_id" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
-                  <button
-                    type="submit"
-                    className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-[#ef2b72] px-8 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#db1e63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ef2b72] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    Send Message
-                  </button>
-                </div>
-                {formStatus === "success" && (
-                  <p
-                    className="sm:col-span-2 text-[13px] text-emerald-600"
-                  >
-                    {formMessage}
-                  </p>
-                )}
-              </form>
-            </div>
+            </form>
           </div>
         </div>
       </section>
@@ -1061,24 +860,35 @@ export default function Home() {
                 <Image src="/Brand/Logo.png" alt="Rangrove Media" fill className="object-contain object-left" />
               </div>
               <p className="mt-5 text-[15px] leading-[1.7] text-[#b8b2d7]">
-                Rangrove Media builds high-performance websites with sharp design, clear messaging, and
-                conversion-focused execution.
+                Dedicated PPC strategy, management, and creative execution built to grow ambitious brands.
               </p>
             </div>
 
             <div>
               <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Navigation</h3>
               <div className="mt-5 space-y-3 text-[15px] text-[#b8b2d7]">
-                <a href="#what-we-do" className="block cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+                <a
+                  href="#what-we-do"
+                  className="block cursor-pointer text-left transition-colors hover:text-white"
+                >
                   What we do
                 </a>
-                <a href="#our-work" className="block cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
-                  Our work
+                <a
+                  href="#our-work"
+                  className="block cursor-pointer text-left transition-colors hover:text-white"
+                >
+                  Our Work
                 </a>
-                <a href="#why-work-with-us" className="block cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+                <a
+                  href="#why-work-with-us"
+                  className="block cursor-pointer text-left transition-colors hover:text-white"
+                >
                   Why work with us
                 </a>
-                <a href="#contact-us" className="block cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+                <a
+                  href="#contact-us"
+                  className="block cursor-pointer text-left transition-colors hover:text-white"
+                >
                   Contact Us
                 </a>
               </div>
@@ -1087,37 +897,30 @@ export default function Home() {
             <div>
               <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Contact</h3>
               <div className="mt-5 space-y-3 text-[15px] text-[#b8b2d7]">
-                <a href="mailto:contact@rangrove.com" className="block transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
-                  contact@rangrove.com
-                </a>
-                <a href="tel:+919119724096" className="block transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
-                  +91 9119724096
-                </a>
-                <p>India</p>
+                <p>hello@rangrove.com</p>
+                <p>+91 98765 43210</p>
+                <p>New Delhi, India</p>
               </div>
             </div>
 
             <div>
               <h3 className="text-[14px] font-extrabold uppercase tracking-[0.16em] text-white">Let&apos;s Talk</h3>
               <p className="mt-5 text-[15px] leading-[1.7] text-[#b8b2d7]">
-                Tell us about your next website or growth project and we&apos;ll put together a focused proposal.
+                Tell us what you need and we&apos;ll put together a focused proposal.
               </p>
-              <a
-                href="#contact-us"
-                className="mt-6 inline-flex h-11 cursor-pointer items-center justify-center rounded-full bg-[#ef2b72] px-5 text-[14px] font-extrabold text-white transition-colors duration-200 hover:bg-[#db1e63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09043c]"
-              >
+              <button className="mt-6 inline-flex h-[50px] items-center justify-center rounded-[14px] bg-[#ef2b72] px-6 text-[15px] font-extrabold text-white transition-colors duration-200 hover:bg-[#db1e63]">
                 Get a free proposal
-              </a>
+              </button>
             </div>
           </div>
 
           <div className="flex flex-col gap-4 pt-6 text-[13px] text-[#8b84b3] sm:flex-row sm:items-center sm:justify-between">
             <p>© 2026 Rangrove Media. All rights reserved.</p>
             <div className="flex items-center gap-5">
-              <a href="#" className="cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+              <a href="#" className="transition-colors hover:text-white">
                 Privacy Policy
               </a>
-              <a href="#" className="cursor-pointer transition-colors hover:text-white focus-visible:outline-none focus-visible:underline">
+              <a href="#" className="transition-colors hover:text-white">
                 Terms
               </a>
             </div>
